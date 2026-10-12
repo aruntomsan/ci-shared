@@ -70,7 +70,6 @@ jobs:
           file: ${{ inputs.dockerfile }}
           tags: |
             ${{ env.ECR_REGISTRY }}/${{ inputs.service-name  }}:${{ github.sha }}
-            ${{ env.ECR_REGISTRY }}/${{ inputs.service-name }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
   
@@ -112,4 +111,3 @@ jobs:
       - name: Push image
         run: |
             docker push ${{ env.ECR_REGISTRY }}/${{ inputs.service-name }}:${{ github.sha }}
-            docker push ${{ env.ECR_REGISTRY }}/${{ inputs.service-name }}:latest
