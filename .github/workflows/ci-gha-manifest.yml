@@ -6,15 +6,6 @@ on:
         description: "Service name, also used as the ECR repository name"
         required: true
         type: string
-      language:
-        description: "go | java | csharp | node | python"
-        required: true
-        type: string
-      language-version:
-        description: "Toolchain version"
-        required: false
-        type: string
-        default: ""
       context:
         description: "Docker build context, relative to the repo root"
         required: false
@@ -77,13 +68,10 @@ jobs:
           tags: |
             ${{ env.ECR_REGISTRY }}/${{ inputs.service-name  }}:${{ github.sha }}
             ${{ env.ECR_REGISTRY }}/${{ inputs.service-name }}:latest
-          build-args: |
-            LANGUAGE=${{ inputs.language }}
-            LANGUAGE_VERSION=${{ inputs.language-version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
   
-      - name: Trivy vulnerability scan
+      - name: Trivy Image vulnerability scan
         uses: aquasecurity/trivy-action@v0.36.0  
         with:
             image-ref: ${{ env.ECR_REGISTRY }}/${{ inputs.service-name }}:${{ github.sha }}
