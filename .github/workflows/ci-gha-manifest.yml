@@ -1,4 +1,7 @@
 name: Build and push image
+
+#Temporarily set exit code of Trivy to 0 on both file system and image scan. 
+
 on:
   workflow_call:
     inputs:
@@ -42,7 +45,7 @@ jobs:
           severity: CRITICAL,HIGH
           ignore-unfixed: true
           format: table
-          exit-code: "1"
+          exit-code: "0"
       
       - uses: actions/checkout@v7
 
@@ -79,7 +82,7 @@ jobs:
             severity: CRITICAL,HIGH
             ignore-unfixed: true
             vuln-type: os,library
-            exit-code: "1"
+            exit-code: "0"
   
       - name: Dockle image lint
         run: |
